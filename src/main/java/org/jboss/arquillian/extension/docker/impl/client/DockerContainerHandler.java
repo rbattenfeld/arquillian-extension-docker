@@ -47,6 +47,13 @@ public class DockerContainerHandler {
 
 	private ContainerCreateResponse containerCreateResponse = null;
 	
+	/**
+	 * Starts the container before the arquillian descriptor is parsed and loaded by arquillian.
+	 * We need at this point to fetch the IP address of the started docker container.
+	 * <p>
+	 * The remote container then will connect to the running Java EE container instance for deploying and executing the tests.
+	 * @param event
+	 */
 	public void startDockerContainer(@Observes(precedence = 1) ManagerStarted event) {		
 		startDockerContainer();
 	}
@@ -55,13 +62,16 @@ public class DockerContainerHandler {
 		stopDockerContainer();
 	}
 
+	/**
+	 * We have to wait a little bit. 
+	 * @param event
+	 */
 	public void wait(@Observes BeforeSuite event) {
 		Thread.currentThread();
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
+			log.warning(e.getMessage()); // TODO poll for container state
 		}
 	}
 	
@@ -93,6 +103,11 @@ public class DockerContainerHandler {
 		log.info("Stopping docker container done");
 	}
 
+	/**
+	 * Loads the arquillian descriptor. This is required because we have to set the system properties before the 
+	 * descriptor is loaded and parsed.
+	 * @return
+	 */
 	private ArquillianDescriptor loadFromArquillianXml() {
 		final InputStream arqXmlStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(ARQUILLIAN_XML);
 		return Descriptors.importAs(ArquillianDescriptor.class).fromStream(arqXmlStream);

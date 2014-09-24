@@ -19,8 +19,6 @@ package org.jboss.arquillian.extension.docker.impl.client;
 import static org.junit.Assert.assertTrue;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.container.test.api.TargetsContainer;
-import org.jboss.arquillian.extension.docker.api.DockerContainerRef;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -34,7 +32,6 @@ import org.junit.runner.RunWith;
  * @author <a href="mailto:ralf.battenfeld@bluewin.ch">Ralf Battenfeld</a>
  */
 @RunWith(Arquillian.class)
-@DockerContainerRef(host = "localhost", port = 2375, image = "jboss/wildfly", portMappings = {"8081:8080", "9991:9990"})
 public class DockerContainerStartTestCase {
 	
 	@Deployment

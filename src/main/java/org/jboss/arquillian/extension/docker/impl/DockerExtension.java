@@ -31,7 +31,5 @@ public class DockerExtension implements LoadableExtension {
     @Override
     public void register(final ExtensionBuilder builder) {
         builder.observer(DockerContainerHandler.class);
-//        builder.observer(MailTestVerifier.class);
-//        builder.service(AuxiliaryArchiveAppender.class,	MailDeploymentAppender.class);
     }
 }
